@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/aws/aws-lambda-go/lambda"
+)
 
 type MyEvent struct {
 	username string `json:"username"`
@@ -14,5 +18,5 @@ func HandleRequest(event MyEvent) (string, error) {
 }
 
 func main() {
-
+	lambda.Start(HandleRequest)
 }

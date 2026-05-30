@@ -7,14 +7,14 @@ import (
 )
 
 type MyEvent struct {
-	username string `json:"username"`
+	Username string `json:"username"`
 }
 
 func HandleRequest(event MyEvent) (string, error) {
-	if event.username == "" {
+	if event.Username == "" {
 		return "", fmt.Errorf("Username cannot be empty")
 	}
-	return fmt.Sprintf("Succesfully called by - %s", event.username), nil
+	return fmt.Sprintf("Successfully called by - %s", event.Username), nil
 }
 
 func main() {

@@ -37,7 +37,7 @@ func (u *DynamoDBClient) UserValidation(username string) (bool, error) {
 		&dynamodb.GetItemInput{
 			TableName: aws.String(TABLE_NAME),
 			Key: map[string]types.AttributeValue{
-				username: &types.AttributeValueMemberS{
+				"username": &types.AttributeValueMemberS{
 					Value: username,
 				},
 			},
@@ -46,7 +46,7 @@ func (u *DynamoDBClient) UserValidation(username string) (bool, error) {
 	if err != nil {
 		return true, err
 	}
-	if result.Item == nil {
+	if len(result.Item) == 0 {
 		return false, nil
 	}
 	return true, nil
@@ -54,7 +54,7 @@ func (u *DynamoDBClient) UserValidation(username string) (bool, error) {
 
 func (u *DynamoDBClient) InsertUser(user lambda_types.RegisterUser) error {
 	item := &dynamodb.PutItemInput{
-		TableName: aws.String(TABLE_NAME),
+		TableName:           aws.String(TABLE_NAME),
 		Item: map[string]types.AttributeValue{
 			"username": &types.AttributeValueMemberS{
 				Value: user.Username,

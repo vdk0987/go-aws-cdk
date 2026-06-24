@@ -19,6 +19,11 @@ type DynamoDBClient struct {
 	databasestore *dynamodb.Client
 }
 
+type UserStore interface {
+	UserValidation(username string) (bool, error)
+	InsertUser(user lambda_types.RegisterUser) error
+}
+
 func NewDynamoDBClient() (*DynamoDBClient, error) {
 	cfg, err := config.LoadDefaultConfig(context.Background())
 	if err != nil {
@@ -54,7 +59,7 @@ func (u *DynamoDBClient) UserValidation(username string) (bool, error) {
 
 func (u *DynamoDBClient) InsertUser(user lambda_types.RegisterUser) error {
 	item := &dynamodb.PutItemInput{
-		TableName:           aws.String(TABLE_NAME),
+		TableName: aws.String(TABLE_NAME),
 		Item: map[string]types.AttributeValue{
 			"username": &types.AttributeValueMemberS{
 				Value: user.Username,

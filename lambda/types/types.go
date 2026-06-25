@@ -20,7 +20,7 @@ func newUser (registerUser RegisterUser) (User, error) {
 	}
 
 	return User{
-		Username: registerUser.Username
+		Username: registerUser.Username,
 		PasswordHash: string(hashedPassword),
 	}, nil
 }

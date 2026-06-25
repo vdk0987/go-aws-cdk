@@ -2,11 +2,13 @@ package database
 
 import (
 	"context"
+	"fmt"
 
 	lambda_types "lambda-func/types"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 )
@@ -74,4 +76,36 @@ func (u *DynamoDBClient) InsertUser(user lambda_types.RegisterUser) error {
 		return err
 	}
 	return nil
+}
+
+func (u *DynamoDBClient) GetUser(username string) (lambda_types.User, error) {
+	var user lambda_types.User
+
+	result, err := u.databasestore.GetItem(
+		context.Background(),
+		&dynamodb.GetItemInput{
+			TableName: aws.String(TABLE_NAME),
+			Key: map[string]types.AttributeValue{
+				"username": &types.AttributeValueMemberS{
+					Value: username,
+				},
+			},
+		},
+	)
+
+	if err != nil {
+		return user, err
+	}
+
+	if result.Item == nil {
+		return user, fmt.Errorf("User not found")
+	}
+
+	err = attributevalue.UnmarshalMap(result.Item, &user)
+
+	if err != nil {
+		return user, err
+	}
+
+	return user, nil
 }

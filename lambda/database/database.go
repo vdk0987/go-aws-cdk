@@ -23,7 +23,7 @@ type DynamoDBClient struct {
 
 type UserStore interface {
 	UserValidation(username string) (bool, error)
-	InsertUser(user lambda_types.RegisterUser) error
+	InsertUser(user lambda_types.User) error
 }
 
 func NewDynamoDBClient() (*DynamoDBClient, error) {

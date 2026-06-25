@@ -59,7 +59,7 @@ func (u *DynamoDBClient) UserValidation(username string) (bool, error) {
 	return true, nil
 }
 
-func (u *DynamoDBClient) InsertUser(user lambda_types.RegisterUser) error {
+func (u *DynamoDBClient) InsertUser(user lambda_types.User) error {
 	item := &dynamodb.PutItemInput{
 		TableName: aws.String(TABLE_NAME),
 		Item: map[string]types.AttributeValue{
@@ -67,7 +67,7 @@ func (u *DynamoDBClient) InsertUser(user lambda_types.RegisterUser) error {
 				Value: user.Username,
 			},
 			"password": &types.AttributeValueMemberS{
-				Value: user.Password,
+				Value: user.PasswordHash,
 			},
 		},
 	}

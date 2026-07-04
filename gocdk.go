@@ -51,9 +51,9 @@ func NewGocdkStack(scope constructs.Construct, id string, props *GocdkStackProps
 			AllowMethods: jsii.Strings("GET", "POST", "PUT", "DELETE", "OPTIONS"),
 			AllowOrigins: jsii.Strings("*"),
 		},
-		DeployOptions: &awsapigateway.StageOptions{
-			LoggingLevel: awsapigateway.MethodLoggingLevel_INFO,
-		},
+		// DeployOptions: &awsapigateway.StageOptions{
+		// 	LoggingLevel: awsapigateway.MethodLoggingLevel_INFO,
+		// },
 	})
 
 	integration := awsapigateway.NewLambdaIntegration(lambdaFunction, nil)

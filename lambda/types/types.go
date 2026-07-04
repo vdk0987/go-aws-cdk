@@ -10,8 +10,8 @@ type RegisterUser struct {
 }
 
 type User struct {
-	Username     string `json:"username"`
-	PasswordHash string `json:"password"`
+	Username     string `json:"username" dynamodbav:"username"`
+	PasswordHash string `json:"password" dynamodbav:"password"`
 }
 
 func NewUser(registerUser RegisterUser) (User, error) {
